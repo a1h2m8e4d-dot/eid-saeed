@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تهنئة عيد الأضحى المبارك | إلى أروى</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Cairo:wght@300;400;600;800&family=Reem+Kufi:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #1e0b36;
+            --primary-light: #3b1c6e;
+            --accent: #ffd700;
+            --accent-glow: rgba(255, 215, 0, 0.4);
+            --text-light: #f4effa;
+            --glass-bg: rgba(255, 255, 255, 0.07);
+            --glass-border: rgba(255, 255, 255, 0.12);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+
+        body {
+            font-family: 'Cairo', 'Amiri', sans-serif;
+            background: linear-gradient(135deg, #0d041e 0%, #1e0b36 50%, #300950 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            color: var(--text-light);
+            perspective: 1000px;
+        }
+
+        /* Canvas for confetti */
+        #confetti-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* Ambient Stars Background */
+        .stars-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle var(--duration, 3s) infinite ease-in-out alternate;
+            opacity: 0.3;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.2; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1.2); box-shadow: 0 0 10px white; }
+        }
+
+        /* Hanging Lanterns */
+        .lanterns-wrapper {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 250px;
+            display: flex;
+            justify-content: space-around;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .lantern-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: sway var(--sway-duration, 4s) infinite ease-in-out alternate;
+            transform-origin: top center;
+        }
+
+        .rope {
+            width: 2px;
+            height: var(--rope-height, 80px);
+            background: linear-gradient(to bottom, transparent, var(--accent));
+        }
+
+        .lantern-svg {
+            width: 50px;
+            height: auto;
+            filter: drop-shadow(0 0 15px var(--accent-glow));
+        }
+
+        @keyframes sway {
+            0% { transform: rotate(-5deg); }
+            100% { transform: rotate(5deg); }
+        }
+
+        /* Main Greeting Card Wrapper */
+        .card-perspective {
+            width: 90%;
+            max-width: 550px;
+            z-index: 5;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4),
+                        inset 0 0 20px rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: all 0.5s ease;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.03) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        /* Crescent Moon Accent */
+        .moon-crescent {
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle at 35% 35%, transparent 50px, var(--accent) 55px);
+            border-radius: 50%;
+            filter: drop-shadow(0 0 20px var(--accent-glow));
+            transform: rotate(-15deg);
+            opacity: 0.15;
+            animation: pulse-moon 4s infinite alternate ease-in-out;
+        }
+
+        @keyframes pulse-moon {
+            0% { opacity: 0.15; transform: rotate(-15deg) scale(1); }
+            100% { opacity: 0.3; transform: rotate(-10deg) scale(1.05); }
+        }
+
+        /* SVG Cute Sheep Styles */
+        .sheep-wrapper {
+            width: 160px;
+            height: 160px;
+            margin-bottom: 25px;
+            cursor: pointer;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
+            position: relative;
+        }
+
+        .sheep-body-cloud {
+            fill: #f5f5fa;
+            transition: fill 0.3s;
+        }
+
+        .sheep-face {
+            fill: #ffdcd2;
+        }
+
+        .sheep-eye {
+            fill: #1e0b36;
+            transition: transform 0.15s ease-in-out;
+        }
+
+        .sheep-blush {
+            fill: #ff9d9d;
+            opacity: 0.6;
+        }
+
+        .sheep-horn {
+            fill: #e5b22b;
+        }
+
+        /* Sheep Hover Animations */
+        .sheep-wrapper:hover .sheep-body-cloud {
+            fill: #ffffff;
+        }
+
+        .sheep-wrapper:hover {
+            animation: jump 0.6s ease-in-out;
+        }
+
+        @keyframes jump {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px) scale(1.05); }
+        }
+
+        /* Typography */
+        .eid-title {
+            font-family: 'Reem Kufi', sans-serif;
+            font-size: 2.2rem;
+            color: var(--accent);
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+            margin-bottom: 8px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            animation: glowText 3s infinite alternate;
+        }
+
+        @keyframes glowText {
+            0% { text-shadow: 0 0 10px rgba(255, 215, 0, 0.3); }
+            100% { text-shadow: 0 0 20px rgba(255, 215, 0, 0.7); }
+        }
+
+        .arwa-name {
+            font-family: 'Reem Kufi', sans-serif;
+            font-size: 2.8rem;
+            background: linear-gradient(45deg, #ffffff 30%, var(--accent) 70%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+        }
+
+        .arwa-name::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 15%;
+            width: 70%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            box-shadow: 0 0 8px var(--accent);
+            border-radius: 2px;
+        }
+
+        .eid-badge {
+            display: inline-block;
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            padding: 6px 18px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            letter-spacing: 1px;
+            backdrop-filter: blur(5px);
+        }
+
+        /* Text Content container */
+        .message-container {
+            position: relative;
+            min-height: 120px;
+            margin-bottom: 30px;
+            transition: all 0.5s ease;
+        }
+
+        .eid-message {
+            font-family: 'Amiri', serif;
+            font-size: 1.35rem;
+            line-height: 2.1rem;
+            color: #e5daf3;
+            text-align: center;
+            opacity: 0.95;
+            transition: all 0.5s ease;
+        }
+
+        .secret-wish {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-family: 'Amiri', serif;
+            font-size: 1.35rem;
+            line-height: 2.1rem;
+            color: #fff9e6;
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.2);
+        }
+
+        /* Interactive Premium Button */
+        .action-btn {
+            background: linear-gradient(135deg, #ffd700 0%, #e5b22b 100%);
+            color: #1e0b36;
+            border: none;
+            padding: 16px 40px;
+            border-radius: 50px;
+            font-size: 1.15rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.3),
+                        0 0 0 4px rgba(255, 215, 0, 0.1);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Cairo', sans-serif;
+            position: relative;
+            z-index: 15;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 15px 30px rgba(255, 215, 0, 0.5),
+                        0 0 0 6px rgba(255, 215, 0, 0.2);
+        }
+
+        .action-btn:active {
+            transform: translateY(1px);
+        }
+
+        /* Audio Toggle Button */
+        .audio-toggle {
+            position: absolute;
+            bottom: 25px;
+            left: 25px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: all 0.3s;
+            z-index: 15;
+            backdrop-filter: blur(5px);
+        }
+
+        .audio-toggle:hover {
+            background: rgba(255, 215, 0, 0.2);
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: scale(1.1);
+        }
+
+        .audio-wave {
+            display: flex;
+            align-items: flex-end;
+            gap: 3px;
+            width: 16px;
+            height: 16px;
+        }
+
+        .audio-bar {
+            width: 3px;
+            height: 100%;
+            background-color: currentColor;
+            border-radius: 3px;
+            transform-origin: bottom;
+            animation: bounce-bar 0.8s ease infinite alternate;
+            animation-play-state: paused;
+        }
+
+        .audio-bar:nth-child(2) { animation-delay: 0.2s; }
+        .audio-bar:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes bounce-bar {
+            0% { transform: scaleY(0.2); }
+            100% { transform: scaleY(1); }
+        }
+
+        .audio-active .audio-bar {
+            animation-play-state: running;
+        }
+
+        /* Footer elements */
+        .eid-decorations-bottom {
+            position: absolute;
+            bottom: -30px;
+            width: 100%;
+            height: 120px;
+            opacity: 0.05;
+            pointer-events: none;
+            background-image: radial-gradient(circle, var(--accent) 1px, transparent 1px);
+            background-size: 20px 20px;
+            z-index: 1;
+        }
+
+        /* Hearts/Stars floating on click */
+        .sparkle {
+            position: absolute;
+            pointer-events: none;
+            animation: float-up 1.5s forwards ease-out;
+            z-index: 100;
+        }
+
+        @keyframes float-up {
+            0% {
+                transform: translateY(0) scale(0.5) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) scale(1.2) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Responsive styling */
+        @media (max-width: 480px) {
+            .card {
+                padding: 30px 20px;
+            }
+            .eid-title {
+                font-size: 1.8rem;
+            }
+            .arwa-name {
+                font-size: 2.2rem;
+            }
+            .eid-message, .secret-wish {
+                font-size: 1.2rem;
+                line-height: 1.9rem;
+            }
+            .sheep-wrapper {
+                width: 130px;
+                height: 130px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Confetti Canvas -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- Starry background -->
+    <div class="stars-container" id="stars"></div>
+
+    <!-- Hanging Lanterns -->
+    <div class="lanterns-wrapper">
+        <div class="lantern-container" style="--sway-duration: 4.5s; --rope-height: 100px;">
+            <div class="rope"></div>
+            <!-- Beautiful Islamic Lantern SVG -->
+            <svg class="lantern-svg" viewBox="0 0 100 120">
+                <path d="M50,10 L40,30 L60,30 Z" fill="#ffd700" />
+                <rect x="35" y="30" width="30" height="15" rx="5" fill="#e5b22b" />
+                <path d="M30,45 L70,45 L65,85 L35,85 Z" fill="none" stroke="#ffd700" stroke-width="4" />
+                <!-- Glass glow -->
+                <path d="M32,47 L68,47 L63,83 L37,83 Z" fill="rgba(255, 215, 0, 0.4)" />
+                <circle cx="50" cy="65" r="10" fill="#ffffff" filter="blur(2px)" />
+                <rect x="35" y="85" width="30" height="10" rx="3" fill="#e5b22b" />
+                <path d="M40,95 L50,115 L60,95 Z" fill="#ffd700" />
+            </svg>
+        </div>
+        <div class="lantern-container" style="--sway-duration: 3.5s; --rope-height: 60px;">
+            <div class="rope"></div>
+            <svg class="lantern-svg" viewBox="0 0 100 120">
+                <path d="M50,10 L40,30 L60,30 Z" fill="#ffd700" />
+                <rect x="35" y="30" width="30" height="15" rx="5" fill="#e5b22b" />
+                <path d="M30,45 L70,45 L65,85 L35,85 Z" fill="none" stroke="#ffd700" stroke-width="4" />
+                <path d="M32,47 L68,47 L63,83 L37,83 Z" fill="rgba(255, 215, 0, 0.4)" />
+                <circle cx="50" cy="65" r="8" fill="#ffffff" filter="blur(1px)" />
+                <rect x="35" y="85" width="30" height="10" rx="3" fill="#e5b22b" />
+                <path d="M40,95 L50,115 L60,95 Z" fill="#ffd700" />
+            </svg>
+        </div>
+        <div class="lantern-container" style="--sway-duration: 5s; --rope-height: 120px;">
+            <div class="rope"></div>
+            <svg class="lantern-svg" viewBox="0 0 100 120">
+                <path d="M50,10 L40,30 L60,30 Z" fill="#ffd700" />
+                <rect x="35" y="30" width="30" height="15" rx="5" fill="#e5b22b" />
+                <path d="M30,45 L70,45 L65,85 L35,85 Z" fill="none" stroke="#ffd700" stroke-width="4" />
+                <path d="M32,47 L68,47 L63,83 L37,83 Z" fill="rgba(255, 215, 0, 0.4)" />
+                <circle cx="50" cy="65" r="10" fill="#ffffff" filter="blur(2px)" />
+                <rect x="35" y="85" width="30" height="10" rx="3" fill="#e5b22b" />
+                <path d="M40,95 L50,115 L60,95 Z" fill="#ffd700" />
+            </svg>
+        </div>
+    </div>
+
+    <!-- Main Card -->
+    <div class="card-perspective" id="card-wrap">
+        <div class="card">
+            <!-- Glowing Moon in background of card -->
+            <div class="moon-crescent"></div>
+            
+            <div class="eid-badge">عيد الأضحى المبارك 🐑</div>
+            
+            <!-- Animated Cute Sheep SVG -->
+            <div class="sheep-wrapper" id="eid-sheep" onclick="makeSheepBleat(event)">
+                <svg viewBox="0 0 200 200" width="100%" height="100%">
+                    <!-- Little Legs -->
+                    <rect x="75" y="145" width="12" height="25" rx="6" fill="#1e0b36" />
+                    <rect x="113" y="145" width="12" height="25" rx="6" fill="#1e0b36" />
+                    <rect x="60" y="140" width="12" height="25" rx="6" fill="#2d134d" />
+                    <rect x="128" y="140" width="12" height="25" rx="6" fill="#2d134d" />
+
+                    <!-- Main Cloud Body -->
+                    <path class="sheep-body-cloud" d="M 60 140 
+                             A 25 25 0 0 1 40 100 
+                             A 25 25 0 0 1 60 60 
+                             A 25 25 0 0 1 100 45 
+                             A 25 25 0 0 1 140 60 
+                             A 25 25 0 0 1 160 100 
+                             A 25 25 0 0 1 140 140 
+                             A 25 25 0 0 1 100 155 
+                             A 25 25 0 0 1 60 140 Z" />
+
+                    <!-- Curly Horns -->
+                    <path class="sheep-horn" d="M 60 75 C 50 65, 45 80, 55 85 C 60 87, 65 83, 62 78" stroke="#e5b22b" stroke-width="4" fill="none" stroke-linecap="round" />
+                    <path class="sheep-horn" d="M 140 75 C 150 65, 155 80, 145 85 C 140 87, 135 83, 138 78" stroke="#e5b22b" stroke-width="4" fill="none" stroke-linecap="round" />
+
+                    <!-- Head/Face -->
+                    <rect x="70" y="75" width="60" height="55" rx="27" class="sheep-face" />
+                    
+                    <!-- Cute Ears -->
+                    <ellipse cx="63" cy="85" rx="12" ry="7" transform="rotate(-30 63 85)" class="sheep-face" />
+                    <ellipse cx="137" cy="85" rx="12" ry="7" transform="rotate(30 137 85)" class="sheep-face" />
+                    
+                    <!-- Curly Wool on top of Head -->
+                    <circle cx="85" cy="72" r="14" fill="#f5f5fa" />
+                    <circle cx="100" cy="67" r="15" fill="#f5f5fa" />
+                    <circle cx="115" cy="72" r="14" fill="#f5f5fa" />
+
+                    <!-- Big Sparkly Eyes -->
+                    <circle class="sheep-eye" cx="88" cy="98" r="6" id="left-eye" />
+                    <circle class="sheep-eye" cx="112" cy="98" r="6" id="right-eye" />
+                    <!-- Sparkle in eyes -->
+                    <circle cx="86" cy="96" r="2" fill="white" />
+                    <circle cx="110" cy="96" r="2" fill="white" />
+
+                    <!-- Cute Mouth & Nose -->
+                    <path d="M 97 108 L 103 108" stroke="#e07a5f" stroke-width="3" stroke-linecap="round" />
+                    <path d="M 100 108 Q 100 115 96 116" fill="none" stroke="#e07a5f" stroke-width="2.5" stroke-linecap="round" />
+                    <path d="M 100 108 Q 100 115 104 116" fill="none" stroke="#e07a5f" stroke-width="2.5" stroke-linecap="round" />
+
+                    <!-- Rosy Cheeks -->
+                    <ellipse class="sheep-blush" cx="77" cy="106" rx="7" ry="4" />
+                    <ellipse class="sheep-blush" cx="123" cy="106" rx="7" ry="4" />
+                </svg>
+            </div>
+
+            <!-- Eid Titles -->
+            <h2 class="eid-title">تهنئة خاصة من القلب</h2>
+            <h1 class="arwa-name" id="userName">أروى</h1>
+
+            <!-- Card Messages Container -->
+            <div class="message-container">
+                <div class="eid-message" id="message-text">
+                    يا أروى، بمناسبة عيد الأضحى المبارك، أرجو لكِ عيداً سعيداً يفيضُ بالمسراتِ والبهجة، وأن يتقبّل الله طاعاتكِ وصالح أعمالكِ، ويُسعد قلبكِ النقيّ دوماً.
+                </div>
+                <div class="secret-wish" id="wish-text">
+                    ✨ عيدية خاصة لأروى ✨<br>
+                    عسى أن تكون كل أيامكِ أعياداً، وقلبكِ مليئاً بالأفراح، وحياتكِ محفوفة بالتوفيق والسعادة والرضا. كل عام وأنتِ جوهرة تضيء حياة من حولكِ! 🤍🐑
+                </div>
+            </div>
+
+            <!-- Action Button -->
+            <button class="action-btn" onclick="revealEidGift(this)">
+                <span>افتحي عديتكِ السحرية ✨</span>
+            </button>
+
+            <!-- Bottom decorative dots -->
+            <div class="eid-decorations-bottom"></div>
+        </div>
+    </div>
+
+    <!-- Dynamic Audio Player (Dynamic Synthesizer via Web Audio API) -->
+    <button class="audio-toggle" id="audio-toggle-btn" onclick="toggleAudio()" title="تشغيل نغمة العيد">
+        <div class="audio-wave">
+            <span class="audio-bar"></span>
+            <span class="audio-bar"></span>
+            <span class="audio-bar"></span>
+        </div>
+    </button>
+
+    <script>
+        // --- 1. Dynamic twinkle stars generation ---
+        const starsContainer = document.getElementById('stars');
+        const starCount = 65;
+
+        for (let i = 0; i < starCount; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            
+            // Random styling for unique feel
+            const size = Math.random() * 3 + 1;
+            star.style.width = `${size}px`;
+            star.style.height = `${size}px`;
+            star.style.left = `${Math.random() * 100}%`;
+            star.style.top = `${Math.random() * 100}%`;
+            
+            // Varied animation duration
+            star.style.setProperty('--duration', `${Math.random() * 3 + 2}s`);
+            
+            starsContainer.appendChild(star);
+        }
+
+        // --- 2. Interactive Card Parallax 3D effect ---
+        const cardWrap = document.getElementById('card-wrap');
+        
+        document.addEventListener('mousemove', (e) => {
+            const xAxis = (window.innerWidth / 2 - e.pageX) / 35;
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 35;
+            cardWrap.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+        });
+
+        // Reset rotation on leave
+        document.addEventListener('mouseleave', () => {
+            cardWrap.style.transform = 'rotateY(0deg) rotateX(0deg)';
+        });
+
+
+        // --- 3. Eid Gift/Wish Reveal Interaction ---
+        let isOpened = false;
+
+        function revealEidGift(btn) {
+            isOpened = !isOpened;
+            const messageText = document.getElementById('message-text');
+            const wishText = document.getElementById('wish-text');
+            const sheep = document.getElementById('eid-sheep');
+
+            if (isOpened) {
+                // Change card styling slightly
+                document.querySelector('.card').style.boxShadow = '0 30px 60px rgba(255, 215, 0, 0.15), 0 10px 40px rgba(0,0,0,0.5)';
+                document.querySelector('.card').style.borderColor = 'rgba(255, 215, 0, 0.4)';
+                
+                // Switch texts smoothly
+                messageText.style.opacity = '0';
+                setTimeout(() => {
+                    messageText.style.display = 'none';
+                    wishText.style.display = 'block';
+                    setTimeout(() => {
+                        wishText.style.opacity = '1';
+                        wishText.style.transform = 'translateY(0)';
+                    }, 50);
+                }, 400);
+
+                // Button changes
+                btn.innerHTML = '<span>عدتُ للتأمل ✨</span>';
+                btn.style.background = 'linear-gradient(135deg, #ffffff 0%, #e0daf3 100%)';
+                btn.style.color = '#1e0b36';
+
+                // Confetti explosion
+                launchConfetti();
+                playMagicSynth();
+
+                // Sparkly floating effects
+                for (let i = 0; i < 20; i++) {
+                    setTimeout(createSparkle, i * 60);
+                }
+
+                // sheep jump!
+                sheep.style.animation = 'jump 0.6s ease-in-out';
+                setTimeout(() => sheep.style.animation = '', 600);
+            } else {
+                // Reset card styling
+                document.querySelector('.card').style.boxShadow = '0 20px 50px rgba(0, 0, 0, 0.4)';
+                document.querySelector('.card').style.borderColor = 'var(--glass-border)';
+
+                // Switch back texts
+                wishText.style.opacity = '0';
+                wishText.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    wishText.style.display = 'none';
+                    messageText.style.display = 'block';
+                    setTimeout(() => {
+                        messageText.style.opacity = '0.95';
+                    }, 50);
+                }, 400);
+
+                // Button reset
+                btn.innerHTML = '<span>افتحي عديتكِ السحرية ✨</span>';
+                btn.style.background = 'linear-gradient(135deg, #ffd700 0%, #e5b22b 100%)';
+                btn.style.color = '#1e0b36';
+            }
+        }
+
+        // --- 4. Interactive Floating Sparkles ---
+        function createSparkle() {
+            const card = document.querySelector('.card');
+            const sparkle = document.createElement('div');
+            sparkle.classList.add('sparkle');
+            
+            // Random character / Emoji
+            const icons = ['✨', '⭐', '🤍', '🌸', '🐑'];
+            sparkle.textContent = icons[Math.floor(Math.random() * icons.length)];
+            sparkle.style.fontSize = `${Math.random() * 15 + 15}px`;
+            
+            // Position
+            const rect = card.getBoundingClientRect();
+            sparkle.style.left = `${Math.random() * rect.width}px`;
+            sparkle.style.top = `${rect.height / 2 + (Math.random() * 80 - 40)}px`;
+            
+            card.appendChild(sparkle);
+            
+            setTimeout(() => {
+                sparkle.remove();
+            }, 1500);
+        }
+
+        // Make sheep wink and jump when clicked
+        function makeSheepBleat(e) {
+            const sheep = document.getElementById('eid-sheep');
+            const leftEye = document.getElementById('left-eye');
+            const rightEye = document.getElementById('right-eye');
+
+            // Wink animation
+            leftEye.style.transform = 'scaleY(0.1)';
+            rightEye.style.transform = 'scaleY(0.1)';
+            
+            sheep.style.animation = 'jump 0.5s ease-in-out';
+            
+            playSheepSynthSound();
+
+            setTimeout(() => {
+                leftEye.style.transform = 'scaleY(1)';
+                rightEye.style.transform = 'scaleY(1)';
+            }, 300);
+
+            setTimeout(() => {
+                sheep.style.animation = '';
+            }, 500);
+            
+            // Create sparkles from the click coordinate
+            for (let i = 0; i < 5; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.classList.add('sparkle');
+                sparkle.textContent = '✨';
+                sparkle.style.fontSize = '20px';
+                
+                const cardRect = document.querySelector('.card').getBoundingClientRect();
+                const clickX = e.clientX - cardRect.left;
+                const clickY = e.clientY - cardRect.top;
+                
+                sparkle.style.left = `${clickX + (Math.random() * 40 - 20)}px`;
+                sparkle.style.top = `${clickY + (Math.random() * 40 - 20)}px`;
+                
+                document.querySelector('.card').appendChild(sparkle);
+                setTimeout(() => sparkle.remove(), 1200);
+            }
+        }
+
+        // --- 5. High Performance Canvas Confetti System ---
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        let confetti = [];
+        let animationFrameId;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class ConfettiParticle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = -20;
+                this.size = Math.random() * 8 + 6;
+                this.color = `hsl(${Math.random() * 360}, 90%, 65%)`;
+                this.speed = Math.random() * 4 + 4;
+                this.angle = Math.random() * 360;
+                this.spinSpeed = Math.random() * 4 - 2;
+                this.wobble = Math.random() * 10;
+                this.wobbleSpeed = Math.random() * 0.05 + 0.02;
+            }
+
+            update() {
+                this.y += this.speed;
+                this.x += Math.sin(this.y * this.wobbleSpeed) * 1.5;
+                this.angle += this.spinSpeed;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.angle * Math.PI / 180);
+                ctx.fillStyle = this.color;
+                ctx.shadowBlur = 5;
+                ctx.shadowColor = this.color;
+                
+                // Draw decorative shapes (diamonds, circles, stars)
+                if (Math.random() > 0.5) {
+                    ctx.fillRect(-this.size/2, -this.size/2, this.size, this.size);
+                } else {
+                    ctx.beginPath();
+                    ctx.arc(0, 0, this.size/2, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                ctx.restore();
+            }
+        }
+
+        function launchConfetti() {
+            confetti = [];
+            for (let i = 0; i < 150; i++) {
+                confetti.push(new ConfettiParticle());
+            }
+            
+            if (animationFrameId) cancelAnimationFrame(animationFrameId);
+            animateConfetti();
+        }
+
+        function animateConfetti() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            let active = false;
+            confetti.forEach((p, idx) => {
+                if (p.y < canvas.height + 20) {
+                    p.update();
+                    p.draw();
+                    active = true;
+                }
+            });
+
+            if (active) {
+                animationFrameId = requestAnimationFrame(animateConfetti);
+            } else {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+        }
+
+        // --- 6. Web Audio API Synthesizer (No external music files required!) ---
+        let audioCtx = null;
+        let isPlaying = false;
+        let melodyTimeout = null;
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+        // Beautiful Eid atmosphere melody (Pentatonic, magical and soft)
+        const notes = [
+            293.66, // D4
+            329.63, // E4
+            392.00, // G4
+            440.00, // A4
+            523.25, // C5
+            587.33, // D5
+            659.25, // E5
+            783.99, // G5
+        ];
+
+        const melody = [
+            { note: 2, duration: 0.4 },
+            { note: 3, duration: 0.4 },
+            { note: 4, duration: 0.6 },
+            { note: 5, duration: 0.6 },
+            { note: 4, duration: 0.4 },
+            { note: 5, duration: 0.4 },
+            { note: 7, duration: 0.8 },
+            { note: -1, duration: 0.4 }, // pause
+            { note: 6, duration: 0.4 },
+            { note: 5, duration: 0.4 },
+            { note: 4, duration: 0.6 },
+            { note: 3, duration: 0.6 },
+            { note: 4, duration: 0.4 },
+            { note: 2, duration: 0.8 },
+            { note: -1, duration: 1.0 }  // long pause
+        ];
+
+        let melodyIndex = 0;
+
+        function playMelodyStep() {
+            if (!isPlaying) return;
+            initAudio();
+
+            const current = melody[melodyIndex];
+            
+            if (current.note !== -1) {
+                const freq = notes[current.note];
+                
+                // Master Synth Voice
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                const filter = audioCtx.createBiquadFilter();
+
+                osc.type = 'sine'; // Soft, warm sine wave
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+                // Add nice warm filter to keep it pleasant
+                filter.type = 'lowpass';
+                filter.frequency.setValueAtTime(1000, audioCtx.currentTime);
+
+                // Beautiful volume envelope
+                gain.gain.setValueAtTime(0, audioCtx.currentTime);
+                gain.gain.linearRampToValueAtTime(0.18, audioCtx.currentTime + 0.05); // Attack
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + current.duration - 0.05); // Release
+
+                osc.connect(filter);
+                filter.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                osc.start();
+                osc.stop(audioCtx.currentTime + current.duration);
+
+                // Sub-harmonizer / Glockenspiel effect
+                const subOsc = audioCtx.createOscillator();
+                const subGain = audioCtx.createGain();
+                subOsc.type = 'triangle';
+                subOsc.frequency.setValueAtTime(freq * 2, audioCtx.currentTime); // one octave up
+
+                subGain.gain.setValueAtTime(0, audioCtx.currentTime);
+                subGain.gain.linearRampToValueAtTime(0.04, audioCtx.currentTime + 0.02);
+                subGain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.25);
+
+                subOsc.connect(subGain);
+                subGain.connect(audioCtx.destination);
+                subOsc.start();
+                subOsc.stop(audioCtx.currentTime + 0.3);
+            }
+
+            melodyIndex = (melodyIndex + 1) % melody.length;
+            melodyTimeout = setTimeout(playMelodyStep, current.duration * 1000);
+        }
+
+        function toggleAudio() {
+            const btn = document.getElementById('audio-toggle-btn');
+            initAudio();
+
+            if (isPlaying) {
+                isPlaying = false;
+                btn.classList.remove('audio-active');
+                clearTimeout(melodyTimeout);
+                if (audioCtx.state === 'running') {
+                    audioCtx.suspend();
+                }
+            } else {
+                isPlaying = true;
+                btn.classList.add('audio-active');
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+                melodyIndex = 0;
+                playMelodyStep();
+            }
+        }
+
+        // Quick magical chime sound on card open
+        function playMagicSynth() {
+            initAudio();
+            if (!audioCtx) return;
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+
+            const chimeNotes = [523.25, 659.25, 783.99, 1046.50]; // C5 - E5 - G5 - C6
+            chimeNotes.forEach((freq, idx) => {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime + idx * 0.08);
+
+                gain.gain.setValueAtTime(0, audioCtx.currentTime + idx * 0.08);
+                gain.gain.linearRampToValueAtTime(0.1, audioCtx.currentTime + idx * 0.08 + 0.02);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + idx * 0.08 + 0.4);
+
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                
+                osc.start(audioCtx.currentTime + idx * 0.08);
+                osc.stop(audioCtx.currentTime + idx * 0.08 + 0.5);
+            });
+        }
+
+        // Cute "Baaaa!" synth sound when clicking the sheep
+        function playSheepSynthSound() {
+            initAudio();
+            if (!audioCtx) return;
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+
+            const now = audioCtx.currentTime;
+            
+            // Primary sheep tone osc
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            const filter = audioCtx.createBiquadFilter();
+
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(261.63, now); // C4
+            // Modulation to simulate "baaa" bleat vibration
+            osc.frequency.linearRampToValueAtTime(293.66, now + 0.1);
+            osc.frequency.linearRampToValueAtTime(261.63, now + 0.25);
+            osc.frequency.linearRampToValueAtTime(220.00, now + 0.4);
+
+            filter.type = 'bandpass';
+            filter.frequency.setValueAtTime(800, now);
+            filter.Q.setValueAtTime(4, now);
+
+            // Bleating vibrato (LFO)
+            const lfo = audioCtx.createOscillator();
+            const lfoGain = audioCtx.createGain();
+            lfo.frequency.setValueAtTime(14, now); // 14 Hz vibration
+            lfoGain.gain.setValueAtTime(15, now); // amplitude of frequency modulation
+
+            lfo.connect(lfoGain);
+            lfoGain.connect(osc.frequency);
+
+            gain.gain.setValueAtTime(0, now);
+            gain.gain.linearRampToValueAtTime(0.08, now + 0.05);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
+
+            osc.connect(filter);
+            filter.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            lfo.start(now);
+            osc.start(now);
+            
+            lfo.stop(now + 0.5);
+            osc.stop(now + 0.5);
+        }
+    </script>
+</body>
+</html>
